@@ -264,82 +264,29 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         }
 
 	final View root = findViewById(R.id.settings_homepage_container);
-	final TextView textView = root.findViewById(R.id.user_title);
 	final TextView homepageTitle = root.findViewById(R.id.homepage_title);
-	final TextView searchTextView = root.findViewById(R.id.search_action_bar_title);
+	final TextView textView = root.findViewById(R.id.user_title);
 
-	homepageTitle.setVisibility(View.VISIBLE);
+        homepageTitle.setVisibility(View.VISIBLE);
 	textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.header_text_size_contextual));
 
-	String[] randomMsgSearch = getResources().getStringArray(R.array.settings_random);
-        String[] morningMsg = getResources().getStringArray(R.array.dashboard_morning);
-        String[] morningMsgGreet = getResources().getStringArray(R.array.dashboard_morning_greetings);
-        String[] msgNight = getResources().getStringArray(R.array.dashboard_night);
-        String[] msgearlyNight = getResources().getStringArray(R.array.dashboard_early_night);
-        String[] msgNoon = getResources().getStringArray(R.array.dashboard_noon);
-        String[] msgMN = getResources().getStringArray(R.array.dashboard_midnight);
         String[] msgRandom = getResources().getStringArray(R.array.dashboard_random);
-        String[] msgRandomGreet = getResources().getStringArray(R.array.dashboard_random_greetings);
+        
+        int hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	Random genmsgMN = new Random();
+	int rd = genmsgMN.nextInt(msgRandom.length - 1);
+	textView.setText(getOwnerName());
 
-        String greetingsEN = getResources().getString(R.string.dashboard_early_night_greeting1);
-        String greetingsN = getResources().getString(R.string.dashboard_night_greetings1);
-        String greetingsNoon = getResources().getString(R.string.dashboard_noon_greeting1);
-        String random6 = getResources().getString(R.string.dashboard_random6);
+	if ((hourOfDay >= 5 && hourOfDay <= 10) || (hourOfDay >= 16 && hourOfDay <= 17)) {
+	    homepageTitle.setText(msgRandom[rd]);
+	} else if (hourOfDay >= 18 && hourOfDay <= 20) {
+	    homepageTitle.setText(msgRandom[rd]);
+	} else if ((hourOfDay >= 21 && hourOfDay <= 23) || (hourOfDay >= 0 && hourOfDay <= 4)) {
+	    homepageTitle.setText(msgRandom[rd]);
+	} else if (hourOfDay >= 11 && hourOfDay <= 15) {
+	    homepageTitle.setText(msgRandom[rd]);
+	}
 
-	Random genSearchMsg = new Random();
-	int searchRnd = genSearchMsg.nextInt(randomMsgSearch.length-1);
-        searchTextView.setText(randomMsgSearch[searchRnd]);
-
-        switch (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            case 5: case 6: case 7: case 8: case 9: case 10:
-       	// Generate random welcome massage as title header
-        	Random genMorningMsg = new Random();
-        	int morning = genMorningMsg.nextInt(morningMsg.length-1);
-        	int morningGreet = genMorningMsg.nextInt(morningMsgGreet.length-1);
-        	textView.setText(morningMsgGreet[morningGreet] + " " + getOwnerName() + ",");
-        	homepageTitle.setText(morningMsg[morning]);
-                break;
-
-            case 18: case 19: case 20: 
-        	Random genmsgeNight = new Random();
-        	int eNight = genmsgeNight.nextInt(msgearlyNight.length-1);
-        	textView.setText(greetingsEN + " " + getOwnerName() + ",");
-        	homepageTitle.setText(msgearlyNight[eNight]);
-                break;
-                
-            case 21: case 22: case 23: case 0: 
-        	Random genmsgNight = new Random();
-        	int night = genmsgNight.nextInt(msgNight.length-1);
-        	textView.setText(greetingsN + " " + getOwnerName() + ",");
-        	homepageTitle.setText(msgNight[night]);
-                break;
-
-             case 16: case 17:
-        	Random genmsgNoon = new Random();
-        	int noon = genmsgNoon.nextInt(msgNoon.length-1);
-        	textView.setText(greetingsNoon + " " + getOwnerName() + ",");
-        	homepageTitle.setText(msgNoon[noon]);
-                break;
-
-            case 1: case 2: case 3: case 4:
-        	Random genmsgMN = new Random();
-        	int mn = genmsgMN.nextInt(msgMN.length-1);
-        	int rd = genmsgMN.nextInt(msgRandom.length-1);
-        	textView.setText(msgRandom[rd] + " " + getOwnerName() + ",");
-        	homepageTitle.setText(msgMN[mn]);
-                break;
-                
-            case 11: case 12: case 13: case 14: case 15:
-        	Random genmsgRD = new Random();
-        	int randomm = genmsgRD.nextInt(msgRandom.length-1);
-        	int randomGreet = genmsgRD.nextInt(msgRandomGreet.length-1);
-        	textView.setText(msgRandom[randomm] + " " + getOwnerName() + ",");
-        	homepageTitle.setText(msgRandomGreet[randomGreet]);
-                break;
-
-            default:
-                break;
-        }
         setupEdgeToEdge();
         mActivityEmbeddingController = ActivityEmbeddingController.getInstance(this);
         mIsTwoPane = mActivityEmbeddingController.isActivityEmbedded(this);
@@ -513,7 +460,6 @@ public class SettingsHomepageActivity extends FragmentActivity implements
             return;
         }
 
-        mSuggestionView = findViewById(R.id.suggestion_content);
         mTwoPaneSuggestionView = findViewById(R.id.two_pane_suggestion_content);
         mHomepageView = findViewById(R.id.settings_homepage_container);
         // Hide the homepage for preparing the suggestion. If scrolling is needed, the list views
@@ -522,8 +468,6 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         // Schedule a timer to show the homepage and hide the suggestion on timeout.
         mHomepageView.postDelayed(() -> showHomepageWithSuggestion(false),
                 HOMEPAGE_LOADING_TIMEOUT_MS);
-        showFragment(new SuggestionFragCreator(fragmentClass, /* isTwoPaneLayout= */ false),
-                R.id.suggestion_content);
         if (mIsEmbeddingActivityEnabled) {
             showFragment(new SuggestionFragCreator(fragmentClass, /* isTwoPaneLayout= */ true),
                     R.id.two_pane_suggestion_content);

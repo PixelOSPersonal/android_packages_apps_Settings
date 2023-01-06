@@ -760,23 +760,19 @@
 
     <style name="HomepageTitleText" parent="CollapsingToolbarTitle.Expanded">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/system_accent1_400</item>
+        <item name="android:layout_height">wrap_content</item>       
         <item name="android:fontFamily">@*android:string/config_headlineFontFamily</item>
-        <item name="android:layout_marginBottom">@dimen/homepage_title_margin_bottom</item>
         <item name="android:layout_marginHorizontal">@dimen/homepage_title_margin_horizontal</item>
-        <item name="android:textSize">35sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>       
     </style>
 
     <style name="HomepageSubTitleText" parent="CollapsingToolbarTitle.Expanded">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@*android:string/config_headlineFontFamily</item>
+        <item name="android:textColor">@android:color/system_accent1_400</item>
         <item name="android:layout_marginBottom">@dimen/homepage_title_margin_bottom</item>
         <item name="android:layout_marginHorizontal">@dimen/homepage_title_margin_horizontal</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:fontWeight">500</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="RequestManageCredentialsButtonPanel">
@@ -965,6 +961,10 @@
     <style name="ScreenLockPasswordHintTextFontStyle">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:fontFamily">google-sans-text</item>
+    </style>
+    
+    <style name="TextAppearance.HomepagePreferenceTitle" parent="@android:style/TextAppearance.DeviceDefault">
+        <item name="android:textSize">22sp</item>
     </style>
     
     <!-- xd. Action Bar -->
