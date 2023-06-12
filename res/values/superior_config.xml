@@ -34,4 +34,7 @@
     
     <!-- Whether to show or hide sensitive info (like IMEI and Phone Number) on About phone -->
     <bool name="configShowDeviceSensitiveInfo">false</bool>
+
+    <!-- Whether to enable Lineage Fast Charge Prefernece -->
+    <bool name="config_lineageFastChargeSupported">false</bool>
 </resources>
